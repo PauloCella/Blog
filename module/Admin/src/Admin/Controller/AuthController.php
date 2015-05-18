@@ -17,6 +17,8 @@ class AuthController extends ActionController {
 
     public function indexAction() {
         $form = new Login();
+        
+        $teste;
         return new ViewModel(array(
             'form' => $form
         ));
