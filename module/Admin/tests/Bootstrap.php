@@ -12,7 +12,8 @@ class Bootstrap
 {
     static function getModulePath() 
     {
-        return dirname(__DIR__);
+        //mudar o caminho do módulo
+        return __DIR__ . '/../../../module/Skel';
     }
 
     static public function go()
