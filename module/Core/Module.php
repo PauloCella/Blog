@@ -3,11 +3,23 @@
 namespace Core;
 
 use Zend\Mvc\MvcEvent;
-use Zend\Mvc\ModuleRouteListener as ModuleRouteListener;
 
 class Module
 {
 
+    public function onBootstrap($e)
+    {
+        $e->getApplication()->getEventManager()->getSharedManager()->attach('Zend\Mvc\Controller\AbstractActionController', 'dispatch', function($e) {
+            $controller      = $e->getTarget();
+            $controllerClass = get_class($controller);
+            $moduleNamespace = substr($controllerClass, 0, strpos($controllerClass, '\\'));
+            $config          = $e->getApplication()->getServiceManager()->get('config');
+            if (isset($config['module_layout'][$moduleNamespace])) {
+                $controller->layout($config['module_layout'][$moduleNamespace]);
+            }
+        }, 100);
+    }
+    
     public function getAutoloaderConfig()
     {
         return array(
@@ -25,19 +37,6 @@ class Module
     public function getConfig()
     {
         return include __DIR__ . '/config/module.config.php';
-    }
-
-    public function onBootstrap($e)
-    {
-        $e->getApplication()->getServiceManager()->get('translator');
-        $e->getApplication()->getServiceManager()->get('viewhelpermanager')->setFactory('currentUrl', function($sm) use ($e) {
-            $viewHelper = new \Core\View\Helper\CurrentUrl($e->getRouteMatch());
-            return $viewHelper;
-        });
-
-        $eventManager        = $e->getApplication()->getEventManager();
-        $moduleRouteListener = new ModuleRouteListener();
-        $moduleRouteListener->attach($eventManager);
     }
 
     public function getServiceConfig()

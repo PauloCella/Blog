@@ -1,65 +1,67 @@
 <?php
-/**
- * Global Configuration Override
- *
- * You can use this file for overriding configuration values from modules, etc.
- * You would place values in here that are agnostic to the environment and not
- * sensitive to security.
- *
- * @NOTE: In practice, this file will typically be INCLUDED in your source
- * control, so do not include passwords or other sensitive information in this
- * file.
- */
 
 return array(
-    // ...
-    
+    'service_manager' => array(
+        'factories' => array(
+            'Zend\Db\Adapter\Adapter' => 'Zend\Db\Adapter\AdapterServiceFactory'
+        ),
+    ),
+    'db' => array(
+        'driver' => 'Pdo',
+        'dsn' => 'pgsql:dbname=blog;host=localhost',
+    ),
     'acl' => array(
         'roles' => array(
-              'VISITANTE' => null,
-            'CATALOGADOR' => 'VISITANTE',
-            'ADMIN' => 'CATALOGADOR',
+            'visitante' => null,
+            'redator' => 'visitante',
+            'admin' => 'redator'
         ),
         'resources' => array(
-            'Application\Controller\Index.index',
-            'Admin\Cntroller\Login.login',
-            'Admin\Cntroller\Login.logout',
-            'Admin\Cntroller\Usuarios.index',
-            'Admin\Cntroller\Usuarios.save',
-            'Admin\Cntroller\Usuarios.delete',
-            'Admin\Cntroller\Interesses.index',
-            'Admin\Cntroller\Interesses.save',
-            'Admin\Cntroller\Interesses.delete',
-            'Admin\Cntroller\Sexos.index',
-            'Admin\Cntroller\Sexos.save',
-            'Admin\Cntroller\Sexos.delete',
+            'Main\Controller\Index.index',
+            'Main\Controller\Index.more',
+            'Main\Controller\Comments.index',
+            'Admin\Controller\Users.index',
+            'Admin\Controller\Users.save',
+            'Admin\Controller\Users.delete',
+            'Admin\Controller\Categories.index',
+            'Admin\Controller\Categories.save',
+            'Admin\Controller\Categories.delete',
+            'Admin\Controller\Posts.index',
+            'Admin\Controller\Posts.save',
+            'Admin\Controller\Posts.delete',
+            'Admin\Controller\Index.delete',
+            'Admin\Controller\Auth.index',
+            'Admin\Controller\Auth.login',
+            'Admin\Controller\Auth.logout',
         ),
         'privilege' => array(
-            'VISITANTE' => array(
+            'visitante' => array(
                 'allow' => array(
-                    'Application\Controller\Index.index',
-                    'Admin\Controller\Login.login',
+                    'Main\Controller\Index.index',
+                    'Main\Controller\Index.more',
+                    'Main\Controller\Comments.index',
+                    'Admin\Controller\Auth.index',
+                    'Admin\Controller\Auth.login',
+                    'Admin\Controller\Auth.logout',
                 )
             ),
-            'CATALOGADOR' => array(
+            'redator' => array(
                 'allow' => array(
-                    'Admin\Controller\Login.logout',
-                    'Admin\Controller\Interesses.index',
-                    'Admin\Controller\Interesses.save',
-                    'Admin\Controller\Interesses.delete',
-                    'Admin\Controller\Sexos.index',
-                    'Admin\Controller\Sexos.save',
-                    'Admin\Controller\Sexos.delete',
+                    'Admin\Controller\Posts.index',
+                    'Admin\Controller\Posts.save',
+                    'Admin\Controller\Posts.delete',
                 )
             ),
-            'ADMIN' => array(
+            'admin' => array(
                 'allow' => array(
-                    'Admin\Controller\Usuarios.index',
-                    'Admin\Controller\Usuarios.save',
-                    'Admin\Controller\Usuarios.delete',
+                    'Admin\Controller\Users.index',
+                    'Admin\Controller\Users.save',
+                    'Admin\Controller\Users.delete',
+                    'Admin\Controller\Categories.index',
+                    'Admin\Controller\Categories.save',
+                    'Admin\Controller\Categories.delete',
                 )
             ),
         )
     )
-    
 );

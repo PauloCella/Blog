@@ -1,16 +1,15 @@
 <?php
+
 namespace Core\Acl;
 
 use Zend\ServiceManager\ServiceManager;
 use Zend\ServiceManager\ServiceManagerAwareInterface;
-use Zend\ServiceManager\Exception\ServiceNotFoundException;
-
 use Zend\Permissions\Acl\Acl;
 use Zend\Permissions\Acl\Role\GenericRole as Role;
 use Zend\Permissions\Acl\Resource\GenericResource as Resource;
 
-class Builder implements ServiceManagerAwareInterface
-{
+class Builder implements ServiceManagerAwareInterface {
+
     /**
      * @var ServiceManager
      */
@@ -19,28 +18,24 @@ class Builder implements ServiceManagerAwareInterface
     /**
      * @param ServiceManager $serviceManager
      */
-    public function setServiceManager(ServiceManager $serviceManager)
-    {
+    public function setServiceManager(ServiceManager $serviceManager) {
         $this->serviceManager = $serviceManager;
-        //return $this;
     }
 
     /**
-     * Retrieve serviceManager instance
+     * 
      *
      * @return ServiceLocatorInterface
      */
-    public function getServiceManager()
-    {
+    public function getServiceManager() {
         return $this->serviceManager;
     }
 
     /**
-     * Constroi a ACL
-     * @return Acl 
+     * 
+     * @return Acl
      */
-    public function build()
-    {
+    public function build() {
         $config = $this->getServiceManager()->get('Config');
         $acl = new Acl();
         foreach ($config['acl']['roles'] as $role => $parent) {
@@ -63,4 +58,5 @@ class Builder implements ServiceManagerAwareInterface
         }
         return $acl;
     }
+
 }

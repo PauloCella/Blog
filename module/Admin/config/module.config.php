@@ -1,34 +1,14 @@
 <?php
 
-// module/Admin/conﬁg/module.config.php:
 return array(
-    'controllers' => array(//add module controllers
+    'controllers' => array(
         'invokables' => array(
-            'Admin\Controller\Index' => 'Admin\Controller\IndexController',
-            'Admin\Controller\Interesses' => 'Admin\Controller\InteressesController',
-            'Admin\Controller\Usuarios' => 'Admin\Controller\UsuariosController',
-            'Admin\Controller\  Ceps' => 'Admin\Controller\CepsController',
-            'Admin\Controller\Cidades' => 'Admin\Controller\CidadesController',
-            'Admin\Controller\Ufs' => 'Admin\Controller\UfsController',
-            'Admin\Controller\Sexos' => 'Admin\Controller\SexosController',
-            'Admin\Controller\Login' => 'Admin\Controller\LoginController',
-            'Admin\Controller\Filiacoes' => 'Admin\Controller\FiliacoesController',
+            'Admin\Controller\Users' => 'Admin\Controller\UsersController',
+            'Admin\Controller\Posts' => 'Admin\Controller\PostsController',
+            'Admin\Controller\Categories' => 'Admin\Controller\CategoriesController',
+            'Admin\Controller\Auth' => 'Admin\Controller\AuthController',
         ),
     ),
-//Configuração doctrine
-    'doctrine' => array(
-        'driver' => array(
-            'application_entities' => array(
-                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
-                'cache' => 'array',
-                'paths' => array(__DIR__ . '/../src/Admin/Model')
-            ),
-            'orm_default' => array(
-                'drivers' => array(
-                    'Admin\Model' => 'application_entities'
-                )
-            ))),
-//*********************************************************
     'router' => array(
         'routes' => array(
             'admin' => array(
@@ -37,7 +17,7 @@ return array(
                     'route' => '/admin',
                     'defaults' => array(
                         '__NAMESPACE__' => 'Admin\Controller',
-                        'controller' => 'Index',
+                        'controller' => 'Auth',
                         'action' => 'index',
                         'module' => 'admin'
                     ),
@@ -55,7 +35,7 @@ return array(
                             'defaults' => array(
                             ),
                         ),
-                        'child_routes' => array(//permite mandar dados pela url
+                        'child_routes' => array(//permite mandar dados pela url 
                             'wildcard' => array(
                                 'type' => 'Wildcard'
                             ),
@@ -63,58 +43,25 @@ return array(
                     ),
                 ),
             ),
-            'usuarios' => array(
-                'type' => 'segment',
-                'options' => array(
-                    'route' => '/admin/usuarios/index/[page/:page]',
-                    'defaults' => array(
-                        '__NAMESPACE__' => 'Admin\Controller',
-                        'controller' => 'Usuarios',
-                        'action' => 'index',
-                        'module' => 'admin',
-                        'page' => 1,
-                    ),
-                ),
-            ),
-            
-            'interesses' => array(
-                'type' => 'segment',
-                'options' => array(
-                    'route' => '/admin/interesses/index/[page/:page]',
-                    'defaults' => array(
-                        '__NAMESPACE__' => 'Admin\Controller',
-                        'controller' => 'Interesses',
-                        'action' => 'index',
-                        'module' => 'admin',
-                        'page' => 1,
-                    ),
-                ),
-            ),
-            
         ),
     ),
-    
     'service_manager' => array(
         'factories' => array(
-            'Session' => function ($sm){
-                return new Zend\Session\Container('SessionAdmin');
+            'Session' => function($sm) {
+                return new Zend\Session\Container('Blog');
+            },
+            'Admin\Service\Auth' => function($sm) {
+                $dbAdapter = $sm->get('DbAdapter');
+                return new Admin\Service\Auth($dbAdapter);
             },
         )
     ),
-    
-    'view_manager' => array(//the module can have a specific layout
-// 'template_map' => array(
-// 'layout/layout' => __DIR__ . '/../view/layout/layout.phtml',
-// ),
+    'view_manager' => array(
+//        'template_map' => array(
+//            'layout/layout' => __DIR__ . '/../view/layout/layout.phtml',
+//        ),
         'template_path_stack' => array(
             'admin' => __DIR__ . '/../view',
         ),
     ),
-        /* 'db' => array( //module can have a specific db configuration
-          'driver' => 'PDO_SQLite',
-          'dsn' => 'sqlite:' . __DIR__ .'/../data/admin.db',
-          'driver_options' => array(
-          PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-          )
-          ) */
 );
