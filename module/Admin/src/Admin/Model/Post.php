@@ -15,7 +15,7 @@ use Zend\InputFilter\InputFilter;
  * @category Admin
  * @package Entity
  */
-class Usuario
+class Post
 {
     /**
      * @ORM\Id
@@ -33,7 +33,7 @@ class Usuario
      *
      * @var string
      */
-    protected $nome;
+    protected $titulo;
 
    
     /**
@@ -41,7 +41,7 @@ class Usuario
      *
      * @var string
      */
-    protected $email;
+    protected $minText;
 
     
      /**
@@ -49,39 +49,55 @@ class Usuario
      *
      * @var string
      */
-    protected $perfil;       
+    protected $postComp;  
+
+    /**
+     * @ORM\Column (type="integer")
+     *
+     * @var string
+     */
+    protected $ativo;  
+
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Usuario")
+     * @ORM\JoinColumn(name="id_usuario", referencedColumnName="id")
+     *
+     * @var \Admin\Entity\Usuario
+     */
+    protected $usuario;
 
    
     /**
      * @return string
      */
-    public function getNome()
+    public function getTitulo()
     {
-        return $this->nome;
+        return $this->titulo;
     }
 
     /**
-     * @param string $nome
+     * @param string $titulo
      */
-    public function setNome($nome)
+    public function setTitulo($titulo)
     {
-        $this->nome = $nome;
+        $this->titulo = $titulo;
     }
 
     /**
      * @return string
      */
-    public function getEmail()
+    public function getMinText()
     {
-        return $this->email;
+        return $this->minText;
     }
 
     /**
-     * @param string $email
+     * @param string $minText
      */
-    public function setEmail($email)
+    public function setMinText($minText)
     {
-        $this->email = $email;
+        $this->minText = $minText;
     }
 
     /**
@@ -96,17 +112,47 @@ class Usuario
     /**
      * @return string
      */
-    public function getPerfil()
+    public function getPostComp()
     {
-        return $this->perfil;
+        return $this->postComp;
     }
 
     /**
-     * @param string $perfil
+     * @param string $postComp
      */
-    public function setPerfil($perfil)
+    public function setPostComp($postComp)
     {
-        $this->perfil = $perfil;
+        $this->postComp = $postComp;
+    }
+
+
+    public function getAtivo()
+    {
+        return $this->ativo;
+    }
+
+    /**
+     * @param string $ativo
+     */
+    public function setAtivo($ativo)
+    {
+        $this->ativo = $ativo;
+    }
+
+     /**
+     * @return Usuario
+     */
+    public function getUsuario()
+    {
+        return $this->usuario;
+    }
+
+    /**
+     * @param Usuario $usuario
+     */
+    public function setUsuario(\Admin\Entity\Usuario $usuario)
+    {
+        $this->usuario = $usuario;
     }
 
 
@@ -140,12 +186,12 @@ class Usuario
         
 
             $inputFilter->add($factory->createInput(array(
-                'name' => 'nome',
+                'name' => 'titulo',
                 'required' => true,
                 'validators' => array(
                     array(
                         'name' => 'NotEmpty',
-                        'options' => array('message' => 'O campo Nome não pode estar vazio')
+                        'options' => array('message' => 'O campo titulo não pode estar vazio')
                     ),
                     array(
                         'name' => 'StringLength',
@@ -153,7 +199,7 @@ class Usuario
                             'encoding' => 'UTF-8',
                             'min' => 3,
                             'max' => 255,
-                            'message' => 'O campo nome deve ter mais que 3 caracteres e menos que 255',
+                            'message' => 'O campo titulo deve ter mais que 3 caracteres e menos que 255',
                         ),
                     ),
                 ),
@@ -165,16 +211,16 @@ class Usuario
                     ),
                 ),
             )));
-
             
 
+
             $inputFilter->add($factory->createInput(array(
-                'name' => 'email',
+                'name' => 'minText',
                 'required' => true,
                 'validators' => array(
                     array(
                         'name' => 'NotEmpty',
-                        'options' => array('message' => 'O campo E-mail não pode estar vazio')
+                        'options' => array('message' => 'O campo minText não pode estar vazio')
                     ),
                     array(
                         'name' => 'StringLength',
@@ -182,30 +228,29 @@ class Usuario
                             'encoding' => 'UTF-8',
                             'min' => 3,
                             'max' => 255,
-                            'message' => 'O campo E-mail deve ter mais que 3 caracteres e menos que 255',
+                            'message' => 'O campo minText deve ter mais que 3 caracteres e menos que 255',
                         ),
-                    ),
-                    array(
-                        'name' => 'EmailAddress',
-                        'options' => array('message' => 'Não parece ser um e-mail válido')
                     ),
                 ),
                 'filters' => array(
                     array('name' => 'StripTags'),
                     array('name' => 'StringTrim'),
-                    array('name' => 'StringToLower',
+                    array('name' => 'StringToUpper',
                         'options' => array('encoding' => 'UTF-8')
                     ),
                 ),
             )));
+            
 
-             $inputFilter->add($factory->createInput(array(
-                'name' => 'perfil',
+
+             
+            $inputFilter->add($factory->createInput(array(
+                'name' => 'postComp',
                 'required' => true,
                 'validators' => array(
                     array(
                         'name' => 'NotEmpty',
-                        'options' => array('message' => 'O campo perfil não pode estar vazio')
+                        'options' => array('message' => 'O campo postComp não pode estar vazio')
                     ),
                     array(
                         'name' => 'StringLength',
@@ -213,7 +258,7 @@ class Usuario
                             'encoding' => 'UTF-8',
                             'min' => 3,
                             'max' => 255,
-                            'message' => 'O campo perfil deve ter mais que 3 caracteres e menos que 255',
+                            'message' => 'O campo postComp deve ter mais que 3 caracteres e menos que 255',
                         ),
                     ),
                 ),
@@ -226,6 +271,26 @@ class Usuario
                 ),
             )));
 
+         $inputFilter->add($factory->createInput(array(
+                'name' => 'ativo',
+                'required' => true,
+                'validators' => array(
+                    array(
+                        'name' => 'Integer',
+                       ),
+                   
+        ))));
+
+          $inputFilter->add($factory->createInput(array(
+                'name' => 'Usuario',
+                'required' => true,
+                'validators' => array(
+                    array(
+                        'name' => 'NotEmpty',
+                        'options' => array('message' => 'O campo Usuario não pode estar vazio')
+                    )
+                ),
+            )));
 
            
             $this->inputFilter = $inputFilter;
