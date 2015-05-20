@@ -1,6 +1,6 @@
 <?php
 
-namespace Admin;
+namespace Main;
 
 class Module
 {

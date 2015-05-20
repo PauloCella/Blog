@@ -13,11 +13,11 @@ return array(
             'application_entities' => array(
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => array(__DIR__ . '/../src/Main/Model')
+                'paths' => array(__DIR__ . '/../src/Main/Entity')
             ),
             'orm_default' => array(
                 'drivers' => array(
-                    'Main\Model' => 'application_entities'
+                    'Main\Entity' => 'application_entities'
                 )
             ))),
 //*********************************************************

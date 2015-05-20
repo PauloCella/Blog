@@ -10,9 +10,9 @@ use Zend\Mvc\Controller\AbstractActionController;
 /**
  * Controlador que gerencia os posts
  * 
- * @category Skel
+ * @category Admin
  * @package Controller
- * @author  Elton Minetto<eminetto@coderockr.com>
+ * @author  Mike Savegnago<mikesavegngo@unochapeco.edu.br>
  */
 class IndexController extends AbstractActionController
 {

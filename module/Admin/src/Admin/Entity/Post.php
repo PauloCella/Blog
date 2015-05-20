@@ -9,9 +9,9 @@ use Zend\InputFilter\InputFilter;
 
 /**
  * @ORM\Entity
- * @ORM\Table (name = "usuario")
+ * @ORM\Table (name = "post")
  *
- * @author Cezar Junior de Souza <cezar08@unochapeco.edu.br>
+ * @author Ana Paula Binda <anapaulasif@unochapeco.edu.br>
  * @category Admin
  * @package Entity
  */
@@ -27,14 +27,14 @@ class Post
     protected $id;
 
     protected $inputFilter;
-
+ 
+  
     /**
      * @ORM\Column (type="string")
      *
      * @var string
      */
     protected $titulo;
-
    
     /**
      * @ORM\Column (type="string")
@@ -54,7 +54,7 @@ class Post
     /**
      * @ORM\Column (type="integer")
      *
-     * @var string
+     * @var integer
      */
     protected $ativo;  
 
@@ -66,7 +66,6 @@ class Post
      * @var \Admin\Entity\Usuario
      */
     protected $usuario;
-
    
     /**
      * @return string
@@ -126,6 +125,9 @@ class Post
     }
 
 
+ /**
+     * @return integer
+     */
     public function getAtivo()
     {
         return $this->ativo;
@@ -150,7 +152,7 @@ class Post
     /**
      * @param Usuario $usuario
      */
-    public function setUsuario(\Admin\Entity\Usuario $usuario)
+    public function setUsuario($usuario)
     {
         $this->usuario = $usuario;
     }
@@ -282,7 +284,7 @@ class Post
         ))));
 
           $inputFilter->add($factory->createInput(array(
-                'name' => 'Usuario',
+                'name' => 'usuario',
                 'required' => true,
                 'validators' => array(
                     array(

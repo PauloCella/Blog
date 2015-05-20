@@ -11,7 +11,7 @@ use Zend\InputFilter\InputFilter;
  * @ORM\Entity
  * @ORM\Table (name = "usuario")
  *
- * @author Cezar Junior de Souza <cezar08@unochapeco.edu.br>
+ * @author Ana Paula Binda <anapaulasif@unochapeco.edu.br>
  * @category Admin
  * @package Entity
  */
@@ -43,13 +43,43 @@ class Usuario
      */
     protected $email;
 
+
+    /**
+     * @ORM\Column (type="date")
+     *
+     * @var string
+     */
+    protected $data_nasc;
     
+
      /**
      * @ORM\Column (type="string")
      *
      * @var string
      */
-    protected $perfil;       
+     
+    protected $perfil;     
+
+     /**
+     * @ORM\Column (type="string")
+     *
+     * @var string
+     */
+    protected $login;
+
+    /**
+     * @ORM\Column (type="string")
+     *
+     * @var string
+     */
+    protected $senha;
+
+    /**
+     * @ORM\Column (type="string")
+     *
+     * @var string
+     */
+    protected $role; 
 
    
     /**
@@ -84,6 +114,22 @@ class Usuario
         $this->email = $email;
     }
 
+      /**
+     * @return string
+     */
+    public function getDataNasc()
+    {
+        return $this->data_nasc;
+    }
+
+    /**
+     * @param string $data_nasc
+     */
+    public function setDataNasc($data_nasc)
+    {
+        $this->data_nasc = $data_nasc;
+    }
+
     /**
      * @return int
      */
@@ -110,6 +156,55 @@ class Usuario
     }
 
 
+    /**
+     * @return string
+     */
+    public function getLogin()
+    {
+        return $this->login;
+    }
+
+    /**
+     * @param string $perfil
+     */
+    public function setLogin($login)
+    {
+        $this->login = $login;
+    }
+
+
+     /**
+     * @return string
+     */
+    public function getSenha()
+    {
+        return $this->senha;
+    }
+
+    /**
+     * @param string $senha
+     */
+    public function setSenha($senha)
+    {
+        $this->senha = $senha;
+    }
+
+
+     /**
+     * @return string
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    /**
+     * @param string $role
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
+    }
   
     /**
      * @return array
@@ -137,6 +232,71 @@ class Usuario
                 ),
             )));
 
+            $inputFilter->add(
+                    $factory->createInput(array(
+                        'name' => 'login',
+                        'required' => true,
+                        'filters' => array(
+                            array('name' => 'StripTags'),
+                            array('name' => 'StringTrim'),
+                            array('name' => 'StringToLower',
+                                'options' => array('encoding' => 'UTF-8')
+                            ),
+                        ),
+                        'validators' => array(
+                            array(
+                                'name' => 'StringLength',
+                                'options' => array(
+                                    'encoding' => 'UTF-8',
+                                    'min' => '1',
+                                    'max' => '100',
+                                ),
+                            ),
+                        ),
+                    ))
+            );
+
+            $inputFilter->add(
+                    $factory->createInput(array(
+                        'name' => 'senha',
+                        'required' => true,
+                        'filters' => array(
+                            array('name' => 'StripTags'),
+                            array('name' => 'StringTrim'),
+                        ),
+                        'validators' => array(
+                            array(
+                                'name' => 'StringLength',
+                                'options' => array(
+                                    'encoding' => 'UTF-8',
+                                    'min' => '1',
+                                    'max' => '255',
+                                ),
+                            ),
+                        ),
+                    ))
+            );
+
+            $inputFilter->add(
+                    $factory->createInput(array(
+                        'name' => 'role',
+                        'required' => true,
+                        'filters' => array(
+                            array('name' => 'StripTags'),
+                            array('name' => 'StringTrim'),
+                        ),
+                        'validators' => array(
+                            array(
+                                'name' => 'StringLength',
+                                'options' => array(
+                                    'encoding' => 'UTF-8',
+                                    'min' => '1',
+                                    'max' => '100',
+                                ),
+                            ),
+                        ),
+                    ))
+            );
         
 
             $inputFilter->add($factory->createInput(array(
@@ -222,6 +382,20 @@ class Usuario
                     array('name' => 'StringTrim'),
                     array('name' => 'StringToUpper',
                         'options' => array('encoding' => 'UTF-8')
+                    ),
+                ),
+            )));
+                
+            $inputFilter->add($factory->createInput(array(
+                'name' => 'data_nasc',
+                'required' => true,
+                'validators' => array(
+                    array(
+                        'name' => 'Date',
+                        'options' => array(
+                            'message' => 'Não parece uma data válida',
+                            'format' => 'd-m-Y'
+                        )
                     ),
                 ),
             )));
