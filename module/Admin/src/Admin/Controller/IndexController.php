@@ -1,45 +1,33 @@
 <?php
-
-namespace Admin\Controller;
-
-use Zend\View\Model\ViewModel;
-use Zend\Mvc\Controller\AbstractActionController;
-
-
-
 /**
- * Controlador que gerencia os posts
+**
+ *  @author Paulo Cella <paulocella@unochapeco.edu.br>
  * 
- * @category Admin
- * @package Controller
- * @author  Mike Savegnago<mikesavegngo@unochapeco.edu.br>
+ * 
  */
+
+namespace Application\Controller;
+
+use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\ViewModel;
+
 class IndexController extends AbstractActionController
 {
-    /**
-     * Mostra os posts cadastrados
-     * @return void
-     */
     public function indexAction()
     {
-
-					
+        $em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
+        $post = $em->getRepository('\Main\Entity\Post')->findAll();
+        
+    return new ViewModel(
+                array(
+            'post' => $post
+                )
+        );
+        
     }
-
-    /**
-     * Cria ou edita um post
-     * @return void
-     */
+	
     public function saveAction()
-    {
-    }
-
-    /**
-     * Exclui um post
-     * @return void
-     */
-    public function deleteAction()
-    {
-    }
-
+	{
+		return new ViewModel();
+	}		
 }
