@@ -5,14 +5,7 @@ return array(
     'controllers' => array(//add module controllers
         'invokables' => array(
             'Admin\Controller\Index' => 'Admin\Controller\IndexController',
-            'Admin\Controller\Interesses' => 'Admin\Controller\InteressesController',
-            'Admin\Controller\Usuarios' => 'Admin\Controller\UsuariosController',
-            'Admin\Controller\  Ceps' => 'Admin\Controller\CepsController',
-            'Admin\Controller\Cidades' => 'Admin\Controller\CidadesController',
-            'Admin\Controller\Ufs' => 'Admin\Controller\UfsController',
-            'Admin\Controller\Sexos' => 'Admin\Controller\SexosController',
-            'Admin\Controller\Login' => 'Admin\Controller\LoginController',
-            'Admin\Controller\Filiacoes' => 'Admin\Controller\FiliacoesController',
+            
         ),
     ),
 //Configuração doctrine
@@ -21,11 +14,11 @@ return array(
             'application_entities' => array(
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => array(__DIR__ . '/../src/Admin/Model')
+                'paths' => array(__DIR__ . '/../src/Admin/Entity')
             ),
             'orm_default' => array(
                 'drivers' => array(
-                    'Admin\Model' => 'application_entities'
+                    'Admin\Entity' => 'application_entities'
                 )
             ))),
 //*********************************************************

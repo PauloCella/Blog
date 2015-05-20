@@ -1,6 +1,6 @@
 <?php
 
-namespace Admin\Entity;
+namespace Main\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -9,13 +9,13 @@ use Zend\InputFilter\InputFilter;
 
 /**
  * @ORM\Entity
- * @ORM\Table (name = "usuario")
+ * @ORM\Table (name = "comentario")
  *
- * @author Cezar Junior de Souza <cezar08@unochapeco.edu.br>
+ * @author Ana Paula Binda <anapaulasif@unochapeco.edu.br>
  * @category Admin
  * @package Entity
  */
-class Usuario
+class Comentario
 {
     /**
      * @ORM\Id
@@ -33,40 +33,27 @@ class Usuario
      *
      * @var string
      */
-    protected $nome;
-
-   
-    /**
-     * @ORM\Column (type="string")
-     *
-     * @var string
-     */
     protected $email;
 
-    
-     /**
+   
+    /**
      * @ORM\Column (type="string")
      *
      * @var string
      */
-    protected $perfil;       
+    protected $comentario;
+    
 
-   
-    /**
-     * @return string
+  /**
+     * @ORM\ManyToOne(targetEntity="\Main\Entity\Comentario")
+     * @ORM\JoinColumn(name="id_post", referencedColumnName="id")
+     *
+     * @var \Admin\Entity\Post
      */
-    public function getNome()
-    {
-        return $this->nome;
-    }
+     
+    protected $post;     
 
-    /**
-     * @param string $nome
-     */
-    public function setNome($nome)
-    {
-        $this->nome = $nome;
-    }
+     
 
     /**
      * @return string
@@ -83,6 +70,7 @@ class Usuario
     {
         $this->email = $email;
     }
+    
 
     /**
      * @return int
@@ -93,24 +81,44 @@ class Usuario
     }
 
 
-    /**
+   
+
+     /**
      * @return string
      */
-    public function getPerfil()
+    public function getComentario()
     {
-        return $this->perfil;
+        return $this->comentario;
     }
 
     /**
-     * @param string $perfil
+     * @param string $comentario
      */
-    public function setPerfil($perfil)
+    public function setComentario($comentario)
     {
-        $this->perfil = $perfil;
+        $this->comentario = $comentario;
     }
 
 
-  
+     
+    /**
+     * @return Post
+     */
+    public function getPost()
+    {
+        return $this->post;
+    }
+
+    /**
+     * @param Post $post
+     */
+    public function setPost($post)
+    {
+        $this->post = $post;
+    }
+
+
+
     /**
      * @return array
      */
@@ -137,36 +145,9 @@ class Usuario
                 ),
             )));
 
-        
+                             
 
-            $inputFilter->add($factory->createInput(array(
-                'name' => 'nome',
-                'required' => true,
-                'validators' => array(
-                    array(
-                        'name' => 'NotEmpty',
-                        'options' => array('message' => 'O campo Nome não pode estar vazio')
-                    ),
-                    array(
-                        'name' => 'StringLength',
-                        'options' => array(
-                            'encoding' => 'UTF-8',
-                            'min' => 3,
-                            'max' => 255,
-                            'message' => 'O campo nome deve ter mais que 3 caracteres e menos que 255',
-                        ),
-                    ),
-                ),
-                'filters' => array(
-                    array('name' => 'StripTags'),
-                    array('name' => 'StringTrim'),
-                    array('name' => 'StringToUpper',
-                        'options' => array('encoding' => 'UTF-8')
-                    ),
-                ),
-            )));
-
-            
+                    
 
             $inputFilter->add($factory->createInput(array(
                 'name' => 'email',
@@ -200,7 +181,7 @@ class Usuario
             )));
 
              $inputFilter->add($factory->createInput(array(
-                'name' => 'perfil',
+                'name' => 'comentario',
                 'required' => true,
                 'validators' => array(
                     array(
@@ -223,6 +204,17 @@ class Usuario
                     array('name' => 'StringToUpper',
                         'options' => array('encoding' => 'UTF-8')
                     ),
+                ),
+            )));
+
+            $inputFilter->add($factory->createInput(array(
+                'name' => 'post',
+                'required' => true,
+                'validators' => array(
+                    array(
+                        'name' => 'NotEmpty',
+                        'options' => array('message' => 'O campo Usuario não pode estar vazio')
+                    )
                 ),
             )));
 

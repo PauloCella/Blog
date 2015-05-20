@@ -1,6 +1,6 @@
 <?php
 
-namespace Admin\Controller;
+namespace Main\Controller;
 
 use Zend\View\Model\ViewModel;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -10,9 +10,9 @@ use Zend\Mvc\Controller\AbstractActionController;
 /**
  * Controlador que gerencia os posts
  * 
- * @category Skel
+ * @category Main
  * @package Controller
- * @author  Elton Minetto<eminetto@coderockr.com>
+ * @author  Mike Savegnago<mikesavegngo@unochapeco.edu.br>
  */
 class IndexController extends AbstractActionController
 {
